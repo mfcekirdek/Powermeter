@@ -1,6 +1,6 @@
 # Powermeter
-Powermeter is a basic powershell based backdoor/post exploit tool. Main functionalities are shown below. You can check the video at the bottom of the page.
-Note: It is highly recommended to watch the video at 1080p due to low quality. It will be fixed soon :=)
+Powermeter is a basic powershell based backdoor/post exploit tool. Main functionalities are shown below. You can also check the video at the bottom of the page.
+Note: It is highly recommended to watch the video at 1080p due to low quality of recording. It will be fixed soon :=)
 
 ## How to run?
 
