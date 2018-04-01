@@ -437,6 +437,7 @@ $PortNumPattern = @"
 	$encoding=(New-Object -TypeName System.Text.ASCIIEncoding)
 	[byte[]]$bytes = 0..65535|%{0};
 	$info = '[+] '
+	Send-WelcomeMessage
 	$console = 'Powermeter>'
 	$sendbyte = $encoding.GetBytes($console);
 	$stream.Write($sendbyte,0,$sendbyte.Length);
@@ -752,6 +753,13 @@ function Get-Sysinfo {
 }
 
 
+function Send-WelcomeMessage {
+ writeConsoleTagToStream($stream,("`r`n" + "".padLeft(82,'*') + "`r`n"))
+ writeConsoleTagToStream($stream,("*" + "*".padLeft(81,' ') + "`r`n"));
+ writeConsoleTagToStream($stream,("*".padLeft(30,'-') + "Welcome to Powermeter !" + "*".padRight(29,'-') + "`r`n"))
+ writeConsoleTagToStream($stream,("*" + "*".padLeft(81,' ') + "`r`n"));
+ writeConsoleTagToStream($stream,("".padLeft(82,'*') + "`r`n"))
+}
 function Get-Options {
 
 	Param ( 
