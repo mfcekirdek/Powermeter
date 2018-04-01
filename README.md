@@ -27,7 +27,7 @@ Options
 	 download <fileFromVictim>			 Download a file from victim machine.[<fileFromVictim>: An absolute file path in victim machine that the attacker downloads]
 	 upload <fileToVictim>  			 Upload a file to victim machine.[<fileToVictim>: An absolute file path in victim machine to store file uploaded by attacker]
 	 exit                   			 Exit the program
-	 Important: File transfer port should be opened in attacker's side to achieve download,uploading files.
+	 Important: File transfer port should be opened in attacker's side to achieve downloading,uploading files.
 
 In reverse shell module:
 
