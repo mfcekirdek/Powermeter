@@ -21,7 +21,9 @@ To run this program you need to solve execution-policy problem on your system.
 	SPORT - an open attacker machine port that waits for powermeter connection. #'nc -lvp <SPORT>' command can do the trick.
 	FLPORT - attacker machine's file transfer port. This port should be opened at attacker's side to achieve jobs which includes downloading and uploading. (Screencapturing and keylogging are also inclusive because both of them use downloader threads. You may want to see the demo video to see how it works.)
 
-In main module:
+### In main module:
+
+![pm2](https://github.com/mfcekirdek/Powermeter/blob/master/pm1.png "pm2")
 
 Powermeter>show options
 
@@ -47,6 +49,7 @@ Options
 	 upload <fileToVictim>  			 Upload a file to victim machine.[<fileToVictim>: An absolute file path in victim machine to store file uploaded by attacker]
 	 exit                   			 Exit the program
 	 Important: File transfer port should be opened at attacker's side to achieve downloading,uploading files.
+
 
 In reverse shell module:
 
