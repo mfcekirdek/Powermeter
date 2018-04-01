@@ -5,6 +5,7 @@ Note: It is highly recommended to watch the video at 1080p due to low quality of
 To run this program you need to solve execution-policy problem on your system.
 
 ## How to run?
+![pm1](https://github.com/mfcekirdek/Powermeter/blob/master/pm1.png "pm1")
 
 	#Import powermeter functions
 	>> PS C:\Users\decoder\Desktop> . .\powermeter.ps1
