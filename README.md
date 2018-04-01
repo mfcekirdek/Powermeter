@@ -1,4 +1,5 @@
 # Powermeter
+Powermeter is a basic powershell based backdoor/post exploit tool. Main functionalities are shown below.
 
 In main module:
 
@@ -40,4 +41,10 @@ Options
 	 set LPORT=<port>       			 Set local port address
 	 run                    			 Start reverse shell
 	 back                   			 Exit from reverse shell module
+
+
+A quick demo video
+=============
+
+[![IMAGE ALT TEXT HERE](https://img.youtube.com/vi/0D49nX_bD_8/0.jpg)](https://www.youtube.com/watch?v=0D49nX_bD_8)
 
