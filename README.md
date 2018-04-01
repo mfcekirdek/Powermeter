@@ -71,8 +71,8 @@ Powermeter>get sysinfo
 
 #### set FLPORT=\<PORT>
 
-Powershell>set FLPORT=9192__
-[+]FLPORT is set__
+Powershell>set FLPORT=9192  
+[+]FLPORT is set
 
 ![pm4](https://github.com/mfcekirdek/Powermeter/blob/master/pm4.png "pm4")
 
